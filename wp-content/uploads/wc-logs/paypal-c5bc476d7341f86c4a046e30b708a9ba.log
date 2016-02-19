@@ -1,0 +1,171 @@
+02-17-2016 @ 11:35:30 - Generating payment form for order 36. Notify URL: http://180.149.245.182:8844/tradehouse/offline/wc-api/WC_Gateway_Paypal/
+02-17-2016 @ 11:37:33 - Checking IPN response is valid
+02-17-2016 @ 11:37:35 - IPN Request: Array
+(
+    [body] => Array
+        (
+            [cmd] => _notify-validate
+            [mc_gross] => 1.00
+            [invoice] => WC-36
+            [protection_eligibility] => Ineligible
+            [item_number1] => 
+            [payer_id] => UZLXKM5ZEFX28
+            [tax] => 0.00
+            [payment_date] => 03:39:11 Feb 17, 2016 PST
+            [payment_status] => Pending
+            [charset] => windows-1252
+            [mc_shipping] => 0.00
+            [mc_handling] => 0.00
+            [first_name] => kanhaiya
+            [notify_version] => 3.8
+            [custom] => {"order_id":36,"order_key":"wc_order_56c45b02570b8"}
+            [payer_status] => unverified
+            [business] => kanhaiyabuyer786@gmail.com
+            [num_cart_items] => 1
+            [mc_handling1] => 0.00
+            [verify_sign] => AovEzlPCsQMDpmPF8wyyNnan-Or2Apj-ODEFr7BSr4p4L2sspQ2MRNVw
+            [payer_email] => kanhaiyper@gmail.com
+            [mc_shipping1] => 0.00
+            [tax1] => 0.00
+            [txn_id] => 0SN07358F3800371F
+            [payment_type] => instant
+            [last_name] => sharma
+            [item_name1] => test product
+            [receiver_email] => kanhaiyabuyer786@gmail.com
+            [quantity1] => 1
+            [receiver_id] => PF446A3S5FRDG
+            [pending_reason] => multi_currency
+            [txn_type] => cart
+            [mc_gross_1] => 1.00
+            [mc_currency] => GBP
+            [residence_country] => US
+            [test_ipn] => 1
+            [transaction_subject] => {"order_id":36,"order_key":"wc_order_56c45b02570b8"}
+            [payment_gross] => 
+            [ipn_track_id] => fa968f8a23cbf
+        )
+
+    [timeout] => 60
+    [httpversion] => 1.1
+    [compress] => 
+    [decompress] => 
+    [user-agent] => WooCommerce/2.5.2
+)
+
+02-17-2016 @ 11:37:35 - IPN Response: Array
+(
+    [headers] => Array
+        (
+            [date] => Wed, 17 Feb 2016 11:39:36 GMT
+            [server] => Apache
+            [x-frame-options] => SAMEORIGIN
+            [set-cookie] => Array
+                (
+                    [0] => c9MWDuvPtT9GIMyPc3jwol1VSlO=VHZ88p8gGxgLa56XOU2o-E5zqbQejHfL_yLVjPAP0r2STBk0gfLGOo2pvp91-hPc6uDDC2OWZoYfNpXWZUPeejURo2BOHDa5UKMKZpzerbzoh71H1kcu4b6kMGkXhTdPPLxBa6CwbLKlzY38I3FcnbUhzANGdoHs3WZJDbMxg_z-cct5yeg1I2Cko7Pfyw3tqC88j9zwbQROrGsOfs9ySA4b46aYUbqVDrUK_T93U7gbVzwJYGevH81tqpf6PMYFkVDoZijbJ6bFizOUDtebF7Fka4vSdVNVw4nJjMt64llx3IeG2TIvoFZm-gBm8YVA0gpSJjiipoU2w0MbuIWX-fcbeg8_T4AmSbFobnrHys_UvEFpLJbDpdBaCQQTxomle36vZJepcRgftw9oqxbybBx9GkzbkKQ3CCDZizowa83IzsxB-Iqv9h99tui; domain=.paypal.com; path=/; Secure; HttpOnly
+                    [1] => cookie_check=yes; expires=Sat, 14-Feb-2026 11:39:36 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                    [2] => navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+                    [3] => navlns=0.0; expires=Fri, 16-Feb-2018 11:39:36 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                    [4] => Apache=10.72.108.11.1455709176042762; path=/; expires=Fri, 09-Feb-46 11:39:36 GMT
+                    [5] => X-PP-SILOVER=name%3DSANDBOX3.WEB.1%26silo_version%3D1880%26app%3Dappdispatcher%26TIME%3D4166763606; domain=.paypal.com; path=/; Secure; HttpOnly
+                    [6] => X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+                )
+
+            [vary] => Accept-Encoding,User-Agent
+            [connection] => close
+            [paypal-debug-id] => f5bcc1a2619f
+            [strict-transport-security] => max-age=14400
+            [transfer-encoding] => chunked
+            [content-type] => text/html; charset=UTF-8
+        )
+
+    [body] => VERIFIED
+    [response] => Array
+        (
+            [code] => 200
+            [message] => OK
+        )
+
+    [cookies] => Array
+        (
+            [0] => WP_Http_Cookie Object
+                (
+                    [name] => c9MWDuvPtT9GIMyPc3jwol1VSlO
+                    [value] => VHZ88p8gGxgLa56XOU2o-E5zqbQejHfL_yLVjPAP0r2STBk0gfLGOo2pvp91-hPc6uDDC2OWZoYfNpXWZUPeejURo2BOHDa5UKMKZpzerbzoh71H1kcu4b6kMGkXhTdPPLxBa6CwbLKlzY38I3FcnbUhzANGdoHs3WZJDbMxg_z-cct5yeg1I2Cko7Pfyw3tqC88j9zwbQROrGsOfs9ySA4b46aYUbqVDrUK_T93U7gbVzwJYGevH81tqpf6PMYFkVDoZijbJ6bFizOUDtebF7Fka4vSdVNVw4nJjMt64llx3IeG2TIvoFZm-gBm8YVA0gpSJjiipoU2w0MbuIWX-fcbeg8_T4AmSbFobnrHys_UvEFpLJbDpdBaCQQTxomle36vZJepcRgftw9oqxbybBx9GkzbkKQ3CCDZizowa83IzsxB-Iqv9h99tui
+                    [expires] => 
+                    [path] => /
+                    [domain] => .paypal.com
+                    [secure] => 
+                    [httponly] => 
+                )
+
+            [1] => WP_Http_Cookie Object
+                (
+                    [name] => cookie_check
+                    [value] => yes
+                    [expires] => 1771069176
+                    [path] => /
+                    [domain] => .paypal.com
+                    [secure] => 
+                    [httponly] => 
+                )
+
+            [2] => WP_Http_Cookie Object
+                (
+                    [name] => navcmd
+                    [value] => _notify-validate
+                    [expires] => 
+                    [path] => /
+                    [domain] => .paypal.com
+                    [secure] => 
+                    [httponly] => 
+                )
+
+            [3] => WP_Http_Cookie Object
+                (
+                    [name] => navlns
+                    [value] => 0.0
+                    [expires] => 1518781176
+                    [path] => /
+                    [domain] => .paypal.com
+                    [secure] => 
+                    [httponly] => 
+                )
+
+            [4] => WP_Http_Cookie Object
+                (
+                    [name] => Apache
+                    [value] => 10.72.108.11.1455709176042762
+                    [expires] => 2401789176
+                    [path] => /
+                    [domain] => www.sandbox.paypal.com
+                )
+
+            [5] => WP_Http_Cookie Object
+                (
+                    [name] => X-PP-SILOVER
+                    [value] => name=SANDBOX3.WEB.1&silo_version=1880&app=appdispatcher&TIME=4166763606
+                    [expires] => 
+                    [path] => /
+                    [domain] => .paypal.com
+                    [secure] => 
+                    [httponly] => 
+                )
+
+            [6] => WP_Http_Cookie Object
+                (
+                    [name] => X-PP-SILOVER
+                    [value] => 
+                    [expires] => 1
+                    [path] => /cgi-bin/
+                    [domain] => www.sandbox.paypal.com
+                )
+
+        )
+
+    [filename] => 
+)
+
+02-17-2016 @ 11:37:35 - Received valid response from PayPal
+02-17-2016 @ 11:37:35 - Found order #36
+02-17-2016 @ 11:37:35 - Payment status: completed
+02-17-2016 @ 11:37:35 - IPN Response is for another account: kanhaiyabuyer786@gmail.com. Your email is kanhaiya.sharma@wwindia.com

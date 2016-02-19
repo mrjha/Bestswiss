@@ -343,35 +343,9 @@ add_action( 'admin_menu', 'wpdocs_register_my_custom_menu_page' );
 
     add_image_size( 'custom150x150', 150, 150 );
 
-     include_once('multiup/multi-image-metabox.php');
     include_once('custom-meta.php');
-
-    add_action('yith_shop_vendor_edit_form_fields', 'yith_shop_vendor_metabox_edit', 10, 1);    
-    function yith_shop_vendor_metabox_edit($tgid){
-         
-         $meta_value = boilerclassp();
-         //mtbox = new ADD_META_BOX1( $meta_b );
-         $meta_value[0]['termetaid'] = $tgid->term_id;
-         
-         ?>
-            <tr class="form-field term-slug-wrap">
-                <th scope="row"><label for="Untertitel">Snippets</label></th>
-                <td> 
-                 <?php
-                    
-                    foreach( $meta_value as $meta_b )
-                    {
-                       $objMetabox = new ADD_META_BOX1( $meta_b );
-                        $objMetabox->show();
-                    }
-
-
-                    ?>
-                </td>
-            </tr>
-
-         <?php
-    }
+     include_once('multiup/multi-image-metabox.php');
+    
 
 
 
@@ -386,6 +360,11 @@ add_action( 'admin_menu', 'wpdocs_register_my_custom_menu_page' );
     update_woocommerce_term_meta($idval,'Beschreibungeditor',$_POST['yith_vendor_data1']['Beschreibungeditor']);
     update_woocommerce_term_meta($idval,'regionto',$_POST['yith_vendor_data']['regionto']);
     update_woocommerce_term_meta($idval,'Kategoriento',$Kategoriento);
+
+    $regfrom = $_POST['yith_vendor_data1']['regfrom'];
+    $regto = $_POST['yith_vendor_data1']['regto'];
+    update_woocommerce_term_meta($idval,'regfrom',$regfrom);
+    update_woocommerce_term_meta($idval,'regto',$regto);
     
 
     foreach( $meta_value as $meta_b )
@@ -395,7 +374,8 @@ add_action( 'admin_menu', 'wpdocs_register_my_custom_menu_page' );
     }
   }
 
- 
+
+  include_once('tabmodule/tabmodule.php');
 
 
 ?>
