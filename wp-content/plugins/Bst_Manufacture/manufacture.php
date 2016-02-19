@@ -378,4 +378,43 @@ add_action( 'admin_menu', 'wpdocs_register_my_custom_menu_page' );
   include_once('tabmodule/tabmodule.php');
 
 
+
+add_action( 'current_screen', 'scriptinclude' );
+add_action( 'wp_print_styles', 'scriptinclude' );
+function scriptinclude(){
+
+    $screen = get_current_screen();
+    
+    if($screen->taxonomy == 'yith_shop_vendor'){
+      
+        $args = array(
+            'orderby'           => 'name', 
+            'order'             => 'ASC',
+            'hide_empty'        => false, 
+        ); 
+
+        $terms = get_terms('yith_shop_vendor', $args);
+        $expid=array();
+        foreach ($terms as $key => $value) {
+           $date = get_woocommerce_term_meta($value->term_id,'regto',true);
+           if($date){
+               if($date < time()){
+                 $expid[]=$value->term_id;
+               }
+            }
+        }
+
+        $css ='<style type="text/css">';
+        foreach ($expid as $enkey => $envalue) {
+            $css.="#tag-".$envalue."{background:#FFFFA2;}";
+        }
+      echo  $css .='</style>';
+
+
+    }
+    
+}
+
+
+
 ?>
