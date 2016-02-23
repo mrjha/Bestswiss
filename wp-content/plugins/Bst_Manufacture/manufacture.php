@@ -380,8 +380,8 @@ add_action( 'admin_menu', 'wpdocs_register_my_custom_menu_page' );
 
 
 
-add_action( 'current_screen', 'scriptinclude' );
-add_action( 'wp_print_styles', 'scriptinclude' );
+//add_action( 'current_screen', 'scriptinclude' );
+//add_action( 'wp_print_styles', 'scriptinclude' );
 function scriptinclude(){
 
     $screen = get_current_screen();
@@ -414,6 +414,98 @@ function scriptinclude(){
 
     }
     
+}
+
+
+
+function load_custom_wp_admin_style() {
+    $css = "";
+
+    $screen = get_current_screen();
+    
+    if($screen->taxonomy == 'yith_shop_vendor'){
+      
+        $args = array(
+            'orderby'           => 'name', 
+            'order'             => 'ASC',
+            'hide_empty'        => false, 
+        ); 
+
+        $terms = get_terms('yith_shop_vendor', $args);
+        $expid=array();
+        foreach ($terms as $key => $value) {
+           $date = get_woocommerce_term_meta($value->term_id,'regto',true);
+           if($date){
+               if($date < time()){
+                 $expid[]=$value->term_id;
+               }
+            }
+        }
+
+        $css ='<style type="text/css">';
+        foreach ($expid as $enkey => $envalue) {
+            $css.="#tag-".$envalue."{background:#FFFFA2;}";
+        }
+      echo  $css .='</style>';
+
+
+    }
+
+    wp_enqueue_style($css);
+    wp_enqueue_style( 'boostrpmin','http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' );    
+    wp_enqueue_style( 'boostrawesome','http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );    
+    wp_enqueue_style( 'booststyle',plugin_dir_url( __FILE__ ) . 'css/accordian/style.css' );    
+    wp_enqueue_script( 'bstaccordian', plugin_dir_url( __FILE__ ) . 'js/accordian/paccordion.js' );
+}
+add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
+
+
+function includefiles(){
+  $screen = get_current_screen();
+    
+    if($screen->taxonomy == 'yith_shop_vendor'){
+        
+    }
+}
+
+//add_action( 'admin_init', 'includefiles' );
+function inputtype($title,$fieldarr){
+
+
+    $inputval="";
+    switch($fieldarr['type']){
+        case "text":
+          $inputval.="<input type='text' placeholder='".$title."' value='".$fieldarr['fieldarray']['default']."' style='' id='' name='".$fieldarr['fieldarray']['name']."' class='input-text regular-input ".$fieldarr['class']."'>";
+        break;
+
+        case "checkbox":
+          $checked = ($fieldarr['fieldarray']['default']=='no')?'':'checked="checked"';
+          $inputval.="<input type='checkbox' ".$checked."  value='".$fieldarr['default']."' style='' id='' name='".$fieldarr['name']."' class=''>";
+        break;
+        case "select":
+
+          $title=$fieldarr['title'];
+          $inputval.="<select  id='' name='".$fieldarr['fieldarray']['name']."' class='' tabindex='-1' title='".$title."'>";
+
+           foreach ($fieldarr['fieldarray']['options'] as $optkey => $optvalue) {
+               $checked = ($fieldarr['fieldarray']['default']==$optkey)?'selected':'';
+               $inputval.="<option ".$checked." val='".$optkey."'>".$optvalue."</option>";
+           }
+                                                    /*<option value="all">All allowed countries</option>
+                                                    <option selected="selected" value="specific">Specific Countries</option>*/
+          $inputval.="</select>";
+        break;
+        case "title":
+           $inputval.="<p>".$fieldarr['fieldarray']['description']."</p>";
+        break;
+        case "price":
+            $inputval.="<input type='text' name='' value='".$fieldarr['fieldarray']['default']."' placeholder='".$title."'/>";
+        break;
+
+    }
+
+    return $inputval;
+
 }
 
 

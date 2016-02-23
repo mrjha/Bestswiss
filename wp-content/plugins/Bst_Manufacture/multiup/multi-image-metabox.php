@@ -618,7 +618,9 @@ function add_image_metabox(){
             <tr class="form-field term-slug-wrap">
                 <th scope="row"><label for="Untertitel">Methods</label></th>
                 <td> 
-                 
+                  <?php
+                  	include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/Bst_shippingclass.php');
+                   ?>
                 </td>
             </tr>
          </table>
