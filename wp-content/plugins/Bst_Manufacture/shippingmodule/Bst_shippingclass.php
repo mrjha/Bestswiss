@@ -1,11 +1,19 @@
 <?php
 
 include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/class_show_shipping_wise_form.php');
+include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/class_show_weight_wise_shipping.php');
+include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/class_weight_htmlform.php');
 
 /* code to call shipping methods */
 
 $obj = new WC_Shipping();
 $shippingmethod=$obj->load_shipping_methods();
+
+
+$obnew = new WC_Weight_Based_Shipping();
+
+/*print_r(WC_Weight_Based_Shipping::PLUGIN_PREFIX);
+die;*/
 
 
 /* End */
@@ -23,6 +31,7 @@ $flatratefield =array();
 
 unset($fieldflatrate['availability']);
 unset($fieldflatrate['countries']);
+
 
 foreach ($fieldflatrate as $title => $fieldArray) {
 
@@ -111,6 +120,40 @@ foreach ($fieldfastdelivery as $title => $fieldArray) {
 $fastdelivery.='</tbody></table>';
 
 
+/*
+ * HTML field for wight wise shipping
+ */
+
+$objweightwiseshipp = new BST_Weight_Based_Shipping();
+
+/* Array of form field
+ */
+
+
+$formhtmlarr = $objweightwiseshipp->htmlform(); 
+
+ 
+/* convert array to html
+ */
+
+$objhtmlel = new wightshipphtmlforms();
+  //$objvaaa="<table class='form-table'><tbody>";
+unset($formhtmlarr['availability']);
+unset($formhtmlarr['countries']);
+unset($formhtmlarr['shipping_class_rates']);
+
+//__p($formhtmlarr);
+
+ foreach ($formhtmlarr as $key => $data) {
+    $objvaaa .= $objhtmlel->generateRangeHtml( $key,$data);
+ }
+
+ $objvaaa.="</div>";
+
+
+
+
+
 
 
 
@@ -121,9 +164,9 @@ $fastdelivery.='</tbody></table>';
  * code to add accordian
  */
 
-$accordian="<div class='container'>
+$accordian="<div class='ccccontainer'>
                 <div class='row'>
-                    <div class='col-sm-8'>
+                    <div class='col-sm-12'>
                         <div class='accordion-wrapper'>";
 
 $i=1;
@@ -148,6 +191,8 @@ foreach ($shippingmethod as $shipkey => $shipvalue) {
           $accordian.=$freeship;        
       }elseif($shipvalue->id == 'international_delivery'){
           $accordian.=$fastdelivery; 
+      }elseif($shipvalue->id == 'main'){
+          $accordian.=$objvaaa; 
       }
                                     
       $accordian.="</div></div>";

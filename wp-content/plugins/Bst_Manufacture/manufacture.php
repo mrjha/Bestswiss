@@ -470,7 +470,8 @@ function includefiles(){
 
 //add_action( 'admin_init', 'includefiles' );
 function inputtype($title,$fieldarr){
-
+global  $woocommerce;
+    $currencysymbol = get_woocommerce_currency_symbol();
 
     $inputval="";
     switch($fieldarr['type']){
@@ -499,10 +500,11 @@ function inputtype($title,$fieldarr){
            $inputval.="<p>".$fieldarr['fieldarray']['description']."</p>";
         break;
         case "price":
-            $inputval.="<input type='text' name='' value='".$fieldarr['fieldarray']['default']."' placeholder='".$title."'/>";
+            $inputval.= "<p>".$currencysymbol."<input type='text' name='' value='".$fieldarr['fieldarray']['default']."' placeholder='".$title."'/></p>";
         break;
 
     }
+
 
     return $inputval;
 

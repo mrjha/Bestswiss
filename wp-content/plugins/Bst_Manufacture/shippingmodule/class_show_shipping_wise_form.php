@@ -54,10 +54,10 @@ class WC_Shipping_Flat_Rateextended extends WC_Shipping_Flat_Rate{
 				),
 				'cost' => array(
 					'title' 		=> __( 'Cost', 'woocommerce' ),
-					'type' 			=> 'text',
+					'type' 			=> 'price',
 					'placeholder'	=> '',
 					'description'	=> $cost_desc,
-					'default'		=> '',
+					'default'		=> 0,
 					'desc_tip'		=> true
 				)
 			);
@@ -85,10 +85,10 @@ class WC_Shipping_Flat_Rateextended extends WC_Shipping_Flat_Rate{
 				'default' 		=> '',
 				'options'		=> array(
 					'' 				=> __( 'N/A', 'woocommerce' ),
-					'coupon'		=> __( 'A valid free shipping coupon', 'woocommerce' ),
-					'min_amount' 	=> __( 'A minimum order amount (defined below)', 'woocommerce' ),
-					'either' 		=> __( 'A minimum order amount OR a coupon', 'woocommerce' ),
-					'both' 			=> __( 'A minimum order amount AND a coupon', 'woocommerce' ),
+					/*'coupon'		=> __( 'A valid free shipping coupon', 'woocommerce' ),*/
+					'amount' 	=> __( 'Based on order amount (defined below)', 'woocommerce' ),
+					/*'either' 		=> __( 'A minimum order amount OR a coupon', 'woocommerce' ),*/
+					/*'both' 			=> __( 'A minimum order amount AND a coupon', 'woocommerce' ),*/
 				)
 			),
 			'min_amount' => array(
@@ -96,6 +96,14 @@ class WC_Shipping_Flat_Rateextended extends WC_Shipping_Flat_Rate{
 				'type' 			=> 'price',
 				'placeholder'	=> wc_format_localized_price( 0 ),
 				'description' 	=> __( 'Users will need to spend this amount to get free shipping (if enabled above).', 'woocommerce' ),
+				'default' 		=> '0',
+				'desc_tip'		=> true
+			),
+			'shipping_cost' => array(
+				'title' 		=> __( 'Shipping Cost', 'woocommerce' ),
+				'type' 			=> 'price',
+				'placeholder'	=> wc_format_localized_price( 0 ),
+				'description' 	=> __( 'Users will need to spend this amount to get free shipping (if enabled below).', 'woocommerce' ),
 				'default' 		=> '0',
 				'desc_tip'		=> true
 			)
