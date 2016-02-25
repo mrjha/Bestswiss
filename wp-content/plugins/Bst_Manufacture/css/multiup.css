@@ -67,3 +67,20 @@
   margin-bottom:16px;
 }
 
+
+.wightfield {
+  border: 0.5px solid #fdffff;
+  display: inline-block;
+  margin: 3px;
+  padding: 2px 0 0 8px;
+}
+
+
+.wightanch {
+  background: #949494 none repeat scroll 0 0;
+  margin: 7px 0 2px 0;
+  padding: 2px 8px 3px 5px;
+  margin: 12px 0 0 0;
+  display: inline-block;
+  text-align: center;
+}

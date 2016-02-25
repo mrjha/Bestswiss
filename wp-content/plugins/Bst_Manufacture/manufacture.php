@@ -456,8 +456,16 @@ function load_custom_wp_admin_style() {
     wp_enqueue_style( 'boostrawesome','http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );    
     wp_enqueue_style( 'booststyle',plugin_dir_url( __FILE__ ) . 'css/accordian/style.css' );    
     wp_enqueue_script( 'bstaccordian', plugin_dir_url( __FILE__ ) . 'js/accordian/paccordion.js' );
+    //wp_enqueue_script( 'jqueryduplicate', plugin_dir_url( __FILE__ ) . 'js/multplsrow/jquery.duplicate.js','1.0.0',false );
 }
 add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
+
+add_action('in_admin_footer', 'adminfoot_monger');
+function adminfoot_monger(){
+   ?>
+   <script type='text/javascript' src='<?php echo plugin_dir_url( __FILE__ ); ?>js/multplsrow/jquery.duplicate.js?ver=4.4.2'></script>
+  <?php
+}
 
 
 function includefiles(){

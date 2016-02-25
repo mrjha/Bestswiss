@@ -4,6 +4,8 @@ class wightshipphtmlforms {
 
 	 public function generateRangeHtml($key, array $data = array())
     { 
+        global  $woocommerce;
+        $currencysymbol = get_woocommerce_currency_symbol();
         //$weighdelivery ='';
         switch($data['type']){
 
@@ -66,7 +68,11 @@ class wightshipphtmlforms {
                 }else{
                         $weighdelivery.="<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
                                     <label class='td' for='woowbs_main_enabled'>
-                                        <fieldset>
+                                        <h2 data-duplicate-add='orderbyweightdel' data-duplicate-max='3'></h2>
+                                        
+                                        <fieldset class='wightfield' data-duplicate='orderbyweightdel' data-duplicate-min='1'>
+                                        <a class='wightanch' href='javascript:void(0)' data-duplicate-add='orderbyweightdel'>+</a>
+                                        <a class='wightanch' href='javascript:void(0)' data-duplicate-remove='orderbyweightdel'>-</a>
                                                 <legend class='screen-reader-text'>
                                                 <span>".$data['title']."</span>
                                                 </legend>
@@ -76,25 +82,38 @@ class wightshipphtmlforms {
                                                 <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[min][value]' id='woowbs_main_weight_min'>
                                                 <label> <input type='checkbox' checked='' value='1' name='woowbs_main_weight[min][inclusive]'> or equal
                                                 </label>
-
                                                 </label>
+                                                
                                                 <label class='wbs-minifield-container'>
-                                                <span class='wbs-minifield-label'>below</span>
-                                                <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[max][value]' id='woowbs_main_weight_max'>
-                                                <label> <input type='checkbox' value='1' name='woowbs_main_weight[max][inclusive]'> or equal
+                                                    <span class='wbs-minifield-label'>below</span>
+                                                    <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[max][value]' id='woowbs_main_weight_max'>
+                                                    <label> <input type='checkbox' value='1' name='woowbs_main_weight[max][inclusive]'> or equal</label>
                                                 </label>
 
+                                                <label class='wbs-minifield-container'>
+                                                    <span class='wbs-minifield-label'>Cost</span>
+                                                    <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[max][value]' id='woowbs_main_weight_max'>
                                                 </label>
+
                                         </fieldset>
+
+
+                                           
+
                                     </lable>
                                 </div>";
                 }
                 
             break;
             case "wbs_custom":
+              
+            
                 $weighdelivery.="<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
                                     <label class='td' for='woowbs_main_enabled'>
-                                        <fieldset>
+                                        <h2 data-duplicate-add='orderbypricedel' data-duplicate-max='3'></h2>
+                                        <fieldset class='wightfield' data-duplicate='orderbypricedel' data-duplicate-min='1'>
+                                        <a class='wightanch' href='javascript:void(0)' data-duplicate-add='orderbypricedel'>+</a>
+                                        <a class='wightanch' href='javascript:void(0)' data-duplicate-remove='orderbypricedel'>-</a>
                                         <legend class='screen-reader-text'>
                                         <span>".$data['title']."</span>
                                         </legend>
@@ -113,6 +132,11 @@ class wightshipphtmlforms {
                                         </label>
 
                                         </label>
+
+                                         <label class='wbs-minifield-container'>
+                                                    <span class='wbs-minifield-label'>Cost</span>
+                                                    <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[max][value]' id='woowbs_main_weight_max'>
+                                                </label>
                                         </fieldset>
                                     </label>
                                 </div>";
@@ -168,6 +192,15 @@ class wightshipphtmlforms {
                                     </fieldset>
                             </label>
                     </div>";
+            break;
+            case "text":
+                    $weighdelivery.="<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
+                                       <label class='td' for='woowbs_main_enabled'><input type='text' placeholder='' value='".$fieldarr['fieldarray']['default']."' style='' id='' name='".$fieldarr['fieldarray']['name']."' class='input-text regular-input ".$fieldarr['class']."'><p>".$data['description']."</p></label>
+                                       </div>";
+            break;
+            case "price":
+                $weighdelivery.= "<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
+                                       <label class='td' for='woowbs_main_enabled'>".$currencysymbol."<input type='text' name='' value='".$fieldarr['fieldarray']['default']."' placeholder='".$title."'/><p>".$data['description']."</p></label></div>";
             break;
 
         }

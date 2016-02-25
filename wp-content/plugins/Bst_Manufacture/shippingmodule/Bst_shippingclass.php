@@ -132,6 +132,8 @@ $objweightwiseshipp = new BST_Weight_Based_Shipping();
 
 $formhtmlarr = $objweightwiseshipp->htmlform(); 
 
+//__p($formhtmlarr);
+
  
 /* convert array to html
  */
@@ -149,15 +151,6 @@ unset($formhtmlarr['shipping_class_rates']);
  }
 
  $objvaaa.="</div>";
-
-
-
-
-
-
-
-
-
 
 
 /*
