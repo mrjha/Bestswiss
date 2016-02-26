@@ -43,7 +43,7 @@ foreach ($fieldflatrate as $title => $fieldArray) {
    $inputarg = array('type'=> $fieldArray['type'],
                       'fieldarray'             => $fieldArray);
 
-   $inputfield = inputtype($title, $inputarg);
+   $inputfield = inputtype($title, $inputarg, 'flatrate');
 
     $flatrate.='<td class="forminp">
         <fieldset>
@@ -75,7 +75,7 @@ foreach ($fieldfreeship as $title => $fieldArray) {
    $inputarg = array('type'=> $fieldArray['type'],
                       'fieldarray' => $fieldArray);
 
-   $inputfield = inputtype($title, $inputarg);
+   $inputfield = inputtype($title, $inputarg, 'freeshiping');
 
     $freeship.='<td class="forminp">
         <fieldset>
@@ -109,7 +109,7 @@ foreach ($fieldfastdelivery as $title => $fieldArray) {
    $inputarg = array('type'=> $fieldArray['type'],
                       'fieldarray'             => $fieldArray);
 
-   $inputfield = inputtype($title, $inputarg);
+   $inputfield = inputtype($title, $inputarg, 'fastdelivery');
 
     $fastdelivery.='<td class="forminp">
         <fieldset>
@@ -147,7 +147,7 @@ unset($formhtmlarr['shipping_class_rates']);
 //__p($formhtmlarr);
 
  foreach ($formhtmlarr as $key => $data) {
-    $objvaaa .= $objhtmlel->generateRangeHtml( $key,$data);
+    $objvaaa .= $objhtmlel->generateRangeHtml( $key,$data,'wigthshipping');
  }
 
  $objvaaa.="</div>";
@@ -194,7 +194,19 @@ foreach ($shippingmethod as $shipkey => $shipvalue) {
 }
 
 
-echo $accordian.="</div></div></div></div>";
+ $accordian.="</div></div></div></div>";
+$script_toaddhiddenvalue ="<script>
+  jQuery(document).ready(function(){
+    jQuery('input[type=\"checkbox\"]').click(function(){
+      if(jQuery(this).is(\":checked\") == true){
+        hiddenval = jQuery(this).attr('datahidden');
+        jQuery('.'+hiddenval).val(1);
+      }
+    });
+  })
+</script>";
+
+echo $accordian.= $script_toaddhiddenvalue;
 
 
 

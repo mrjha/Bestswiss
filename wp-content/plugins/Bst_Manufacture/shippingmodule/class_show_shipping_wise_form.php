@@ -41,7 +41,7 @@ class WC_Shipping_Flat_Rateextended extends WC_Shipping_Flat_Rate{
 					'custom_attributes' => array(
 						'data-placeholder' => __( 'Select some countries', 'woocommerce' )
 					)
-				),
+				)/*,
 				'tax_status' => array(
 					'title' 		=> __( 'Tax Status', 'woocommerce' ),
 					'type' 			=> 'select',
@@ -51,7 +51,7 @@ class WC_Shipping_Flat_Rateextended extends WC_Shipping_Flat_Rate{
 						'taxable' 	=> __( 'Taxable', 'woocommerce' ),
 						'none' 		=> _x( 'None', 'Tax status', 'woocommerce' )
 					)
-				),
+				)*/,
 				'cost' => array(
 					'title' 		=> __( 'Cost', 'woocommerce' ),
 					'type' 			=> 'price',

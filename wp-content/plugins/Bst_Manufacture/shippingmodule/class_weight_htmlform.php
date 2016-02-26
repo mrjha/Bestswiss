@@ -2,10 +2,11 @@
 
 class wightshipphtmlforms {
 
-	 public function generateRangeHtml($key, array $data = array())
+	 public function generateRangeHtml($key, array $data = array(),$inputname)
     { 
         global  $woocommerce;
         $currencysymbol = get_woocommerce_currency_symbol();
+        $weighunit = get_option( 'woocommerce_weight_unit' );
         //$weighdelivery ='';
         switch($data['type']){
 
@@ -25,11 +26,13 @@ class wightshipphtmlforms {
 
             break;
             case "checkbox":
-                $checked = ($data['default']=='no')?'':'checked="checked"';
+
+                $checked = ($data['default']=='0')?'':'checked="checked"';
                 //$inputval.="<input type='checkbox' ".$checked."  value='yes' style='' id='' name='' class=''>";
                 $weighdelivery.="<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
                                       <label class='td' for='woowbs_main_enabled'>
-                                            <input type='checkbox' ".$checked." value='1' style='' id='woowbs_main_enabled' name='woowbs_main_enabled' class=''> ".$data['label']."</label>
+                                            <input type='checkbox' ".$checked." value='1' style='' id='woowbs_main_enabled' name='shipping[".$inputname."][".$key."]' class='' datahidden='shipping".$inputname."".$key."'> ".$data['label']."</label>
+                                            <input type='hidden' name='shipping[".$inputname."][".$key."]' value='0' class='shipping".$inputname."".$key."'/>
                                 </div>";
             break;
             case "select":
@@ -42,7 +45,7 @@ class wightshipphtmlforms {
                $weighdelivery.="<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
                                      <label class='td' for='woowbs_main_enabled'>
                                             <div class='select2-container select availability wc-enhanced-select enhanced' id='s2id_woowbs_main_tax_status' style=''>
-                                                <select  id='woowbs_main_tax_status' name='woowbs_main_tax_status' class='select availability wc-enhanced-select enhanced' tabindex='-1' title='Tax Status'>
+                                                <select  id='woowbs_main_tax_status' name='shipping[".$inputname."][".$key."]' class='select availability wc-enhanced-select enhanced' tabindex='-1' title='Tax Status'>
                                                         ".$inputval."
                                                 </select>
                                             </div>
@@ -70,37 +73,55 @@ class wightshipphtmlforms {
                                     <label class='td' for='woowbs_main_enabled'>
                                         <h2 data-duplicate-add='orderbyweightdel' data-duplicate-max='3'></h2>
                                         
-                                        <fieldset class='wightfield' data-duplicate='orderbyweightdel' data-duplicate-min='1'>
+                                        <fieldset onclick='enblefieldw();' class='wightfield' data-duplicate='orderbyweightdel' data-duplicate-min='1'>
+                                        <div>
                                         <a class='wightanch' href='javascript:void(0)' data-duplicate-add='orderbyweightdel'>+</a>
-                                        <a class='wightanch' href='javascript:void(0)' data-duplicate-remove='orderbyweightdel'>-</a>
+                                        <a class='wightanch' href='javascript:void(0)' data-duplicate-remove='orderbyweightdel'>-</a> </div>
                                                 <legend class='screen-reader-text'>
                                                 <span>".$data['title']."</span>
                                                 </legend>
 
-                                                <label class='wbs-minifield-container'>
-                                                <span class='wbs-minifield-label'>above</span>
-                                                <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[min][value]' id='woowbs_main_weight_min'>
-                                                <label> <input type='checkbox' checked='' value='1' name='woowbs_main_weight[min][inclusive]'> or equal
+                                                <label class='wbs-minifield-container customwbsmincontainer'>
+                                                <span class='wbs-minifield-label'>above (".$weighunit.")</span>
+                                                <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][min][value][]' id='woowbs_main_weight_min'>
+                                                <label> <input type='checkbox' value='1' name='shipping[".$inputname."][".$key."][min][inclusive][]'> or equal
                                                 </label>
                                                 </label>
                                                 
-                                                <label class='wbs-minifield-container'>
-                                                    <span class='wbs-minifield-label'>below</span>
-                                                    <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[max][value]' id='woowbs_main_weight_max'>
-                                                    <label> <input type='checkbox' value='1' name='woowbs_main_weight[max][inclusive]'> or equal</label>
+                                                <label class='wbs-minifield-container customwbsmincontainer'>
+                                                    <span class='wbs-minifield-label'>below (".$weighunit.")</span>
+                                                    <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][max][value][]' id='woowbs_main_weight_max'>
+                                                    <label> <input type='checkbox' value='1' name='shipping[".$inputname."][".$key."][max][inclusive][]'> or equal</label>
                                                 </label>
 
-                                                <label class='wbs-minifield-container'>
-                                                    <span class='wbs-minifield-label'>Cost</span>
-                                                    <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[max][value]' id='woowbs_main_weight_max'>
+                                                <label class='wbs-minifield-container customwbsmincontainer'>
+                                                    <span class='wbs-minifield-label'>Cost (".$currencysymbol.")</span>
+                                                     <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][cost][]' id='woowbs_main_weight_max'>
                                                 </label>
 
                                         </fieldset>
 
+                                        <script>
+                                            jQuery(document).ready(function(){
+                                                jQuery('.shipping".$inputname."".$title."').maskMoney();
+                                            });
 
-                                           
-
+                                            function enblefield(){
+                                               jQuery('.shipping".$inputname."".$title."').maskMoney(); 
+                                            }
+                                            
+                                        </script>
                                     </lable>
+                                    <script>
+                                            jQuery(document).ready(function(){
+                                                jQuery('.shipping".$inputname."".$key."').maskMoney();
+                                            });
+
+                                            function enblefieldw(){
+                                               jQuery('.shipping".$inputname."".$key."').maskMoney(); 
+                                            }
+                                            
+                                        </script>
                                 </div>";
                 }
                 
@@ -111,34 +132,46 @@ class wightshipphtmlforms {
                 $weighdelivery.="<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
                                     <label class='td' for='woowbs_main_enabled'>
                                         <h2 data-duplicate-add='orderbypricedel' data-duplicate-max='3'></h2>
-                                        <fieldset class='wightfield' data-duplicate='orderbypricedel' data-duplicate-min='1'>
+                                        <fieldset onclick='enblefield();' class='wightfield' data-duplicate='orderbypricedel' data-duplicate-min='1'>
+                                        <div>
                                         <a class='wightanch' href='javascript:void(0)' data-duplicate-add='orderbypricedel'>+</a>
                                         <a class='wightanch' href='javascript:void(0)' data-duplicate-remove='orderbypricedel'>-</a>
+                                        </div>
                                         <legend class='screen-reader-text'>
                                         <span>".$data['title']."</span>
                                         </legend>
 
-                                        <label class='wbs-minifield-container'>
-                                        <span class='wbs-minifield-label'>above</span>
-                                        <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_subtotal[min][value]' id='woowbs_main_subtotal_min'>
+                                        <label class='wbs-minifield-container customwbsmincontainer'>
+                                        <span class='wbs-minifield-label'>above (".$currencysymbol.")</span>
+                                        <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][min][value][]' id='woowbs_main_subtotal_min'>
                                         <label> <input type='checkbox' checked='' value='1' name='woowbs_main_subtotal[min][inclusive]'> or equal
                                         </label>
 
                                         </label>
-                                        <label class='wbs-minifield-container'>
-                                        <span class='wbs-minifield-label'>below</span>
-                                        <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_subtotal[max][value]' id='woowbs_main_subtotal_max'>
-                                        <label> <input type='checkbox' value='1' name='woowbs_main_subtotal[max][inclusive]'> or equal
+                                        <label class='wbs-minifield-container customwbsmincontainer'>
+                                        <span class='wbs-minifield-label'>below (".$currencysymbol.")</span>
+                                        <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][max][value][]' id='woowbs_main_subtotal_max'>
+                                        <label> <input type='checkbox' value='1' name='shipping[".$inputname."][".$key."][max][inclusive][]'> or equal
                                         </label>
 
                                         </label>
 
-                                         <label class='wbs-minifield-container'>
-                                                    <span class='wbs-minifield-label'>Cost</span>
-                                                    <input type='text' class='wbs-minifield wc_input_decimal input-text' name='woowbs_main_weight[max][value]' id='woowbs_main_weight_max'>
+                                         <label class='wbs-minifield-container customwbsmincontainer'>
+                                                    <span class='wbs-minifield-label'>Cost (".$currencysymbol.")</span>
+                                                    <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][cost][]' id='woowbs_main_weight_max'>
                                                 </label>
                                         </fieldset>
                                     </label>
+                                        <script>
+                                            jQuery(document).ready(function(){
+                                                jQuery('.shipping".$inputname."".$key."').maskMoney();
+                                            });
+
+                                            function enblefield(){
+                                               jQuery('.shipping".$inputname."".$key."').maskMoney(); 
+                                            }
+                                            
+                                        </script>
                                 </div>";
 
             break;
@@ -147,7 +180,7 @@ class wightshipphtmlforms {
                                       <label class='td' for='woowbs_main_enabled'>
                                     <fieldset>
                                         <legend class='screen-reader-text'><span>".$data['title']."</span></legend>
-                                        <input type='text' placeholder='' value='' style='' id='woowbs_main_fee' name='woowbs_main_fee' class='wc_input_decimal input-text regular-input '>
+                                        <input type='text' placeholder='' value='shipping[".$inputname."][".$key."]' style='' id='woowbs_main_fee' name='woowbs_main_fee' class='wc_input_decimal input-text regular-input '>
                                         <p class='description'>".$data['description']."</p>
                                     </fieldset>
                                     </label>
@@ -195,12 +228,20 @@ class wightshipphtmlforms {
             break;
             case "text":
                     $weighdelivery.="<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
-                                       <label class='td' for='woowbs_main_enabled'><input type='text' placeholder='' value='".$fieldarr['fieldarray']['default']."' style='' id='' name='".$fieldarr['fieldarray']['name']."' class='input-text regular-input ".$fieldarr['class']."'><p>".$data['description']."</p></label>
+                                       <label class='td' for='woowbs_main_enabled'><input type='text' placeholder='' value='".$data['default']."' style='' id='' name='shipping[".$inputname."][".$key."]' class='input-text regular-input ".$data['class']."'><p>".$data['description']."</p></label>
                                        </div>";
             break;
             case "price":
                 $weighdelivery.= "<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
-                                       <label class='td' for='woowbs_main_enabled'>".$currencysymbol."<input type='text' name='' value='".$fieldarr['fieldarray']['default']."' placeholder='".$title."'/><p>".$data['description']."</p></label></div>";
+                                       <label class='td' for='woowbs_main_enabled'>".$currencysymbol."<input id='shipping".$inputname."".$key."' type='text' name='shipping[".$inputname."][".$key."]' value='".$data['default']."' placeholder='".$title."'/><p>".$data['description']."</p></label></div><script>jQuery(document).ready(function(){
+                    jQuery('#shipping".$inputname."".$key."').maskMoney();
+                });</script>";
+            break;
+            case "weight":
+                $weighdelivery.= "<div class='customrow'><label class='th' for='woowbs_main_enabled'>".$data['title']."</label>
+                                       <label class='td' for='woowbs_main_enabled'>".$currencysymbol."<input id='shipping".$inputname."".$key."' type='text' name='shipping[".$inputname."][".$key."]' value='".$data['default']."' placeholder='".$title."'/><p>".$data['description']."</p></label></div> <script>jQuery(document).ready(function(){
+                    jQuery('#shipping".$inputname."".$key."').maskMoney();
+                });</script>";
             break;
 
         }

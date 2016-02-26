@@ -27,8 +27,9 @@ jQuery.duplicate = function(){
     var targetName = jQuery(this).data('duplicate-add');
     var selector = jQuery('[data-duplicate=' + targetName + ']');
     var target = jQuery(selector).last();
+    var tarlen= target.length;
     if(!target.length) target = jQuery(settings[targetName].parent);
-    var newElement = jQuery(templates[targetName]).clone(true);
+    var newElement = jQuery(templates[targetName]).clone(true).attr('dupl',targetName+''+tarlen).addClass(targetName+''+tarlen);
     
     if(jQuery(selector).length >= settings[targetName].maximum) {
       jQuery(this).trigger('duplicate.error');

@@ -180,6 +180,29 @@ function bst_setup_post_type() {
     register_taxonomy( 'bstvencategory', array( 'product' ), $args );
 
 
+    /*
+    * Add table Yith shipping module
+    *
+    */
+    global $wpdb;
+    $table_name = $wpdb->prefix . "yith_vendors_shipping";
+    
+
+    if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+        echo "need to create";
+        $sqlquery ="CREATE TABLE IF NOT EXISTS `wp_yith_vendors_shipping` (
+                      `vid` int(11) NOT NULL,
+                      `flatrate` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                      `freeship` longtext NOT NULL,
+                      `fastdelivery` longtext NOT NULL,
+                      `weightbased` longtext NOT NULL,
+                      PRIMARY KEY (`vid`)
+                    )";   
+        $wpdb->get_var($sqlquery);
+    }
+
+
+
  
 }
 add_action( 'init', 'bst_setup_post_type' );
@@ -353,6 +376,8 @@ add_action( 'admin_menu', 'wpdocs_register_my_custom_menu_page' );
   add_action('edited_yith_shop_vendor', 'save_yith_shop_vendor_metadata', 10, 1);
 
   function save_yith_shop_vendor_metadata($term_id){
+
+
     $upimagestr = implode(',',$_POST['upimage']);
     $Kategoriento = implode(',',$_POST['yith_vendor_data1']['Kategoriento']);
     $idval = $_POST['tag_ID'];
@@ -455,46 +480,31 @@ function load_custom_wp_admin_style() {
     wp_enqueue_style( 'boostrpmin','http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' );    
     wp_enqueue_style( 'boostrawesome','http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );    
     wp_enqueue_style( 'booststyle',plugin_dir_url( __FILE__ ) . 'css/accordian/style.css' );    
-    wp_enqueue_script( 'bstaccordian', plugin_dir_url( __FILE__ ) . 'js/accordian/paccordion.js' );
-    //wp_enqueue_script( 'jqueryduplicate', plugin_dir_url( __FILE__ ) . 'js/multplsrow/jquery.duplicate.js','1.0.0',false );
+    wp_enqueue_script( 'bstaccordian', plugin_dir_url( __FILE__ ) . 'js/accordian/paccordion.js',array('jquery'),1.0,'true' );
+    wp_enqueue_script( 'jqueryduplicate', plugin_dir_url( __FILE__ ) . 'js/multplsrow/jquery.duplicate.js',array('jquery'),1.0,'true' );
+    wp_enqueue_script( 'jquerymaskMoney', plugin_dir_url( __FILE__ ) . 'js/maskinput/jquery.maskMoney.js',array('jquery'),1.0,'true' );
 }
 add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
 
-add_action('in_admin_footer', 'adminfoot_monger');
-function adminfoot_monger(){
-   ?>
-   <script type='text/javascript' src='<?php echo plugin_dir_url( __FILE__ ); ?>js/multplsrow/jquery.duplicate.js?ver=4.4.2'></script>
-  <?php
-}
-
-
-function includefiles(){
-  $screen = get_current_screen();
-    
-    if($screen->taxonomy == 'yith_shop_vendor'){
-        
-    }
-}
 
 //add_action( 'admin_init', 'includefiles' );
-function inputtype($title,$fieldarr){
+function inputtype($title,$fieldarr,$inputname){
 global  $woocommerce;
     $currencysymbol = get_woocommerce_currency_symbol();
 
     $inputval="";
     switch($fieldarr['type']){
         case "text":
-          $inputval.="<input type='text' placeholder='".$title."' value='".$fieldarr['fieldarray']['default']."' style='' id='' name='".$fieldarr['fieldarray']['name']."' class='input-text regular-input ".$fieldarr['class']."'>";
+          $inputval.="<input type='text' placeholder='".$title."' value='".$fieldarr['fieldarray']['default']."' style='' id='' name='shipping[".$inputname."][".$title."]' class='input-text regular-input ".$fieldarr['class']."'>";
         break;
 
         case "checkbox":
           $checked = ($fieldarr['fieldarray']['default']=='no')?'':'checked="checked"';
-          $inputval.="<input type='checkbox' ".$checked."  value='".$fieldarr['default']."' style='' id='' name='".$fieldarr['name']."' class=''>";
+          $inputval.="<input type='checkbox' ".$checked."  value='1' style='' id='' name='shipping[".$inputname."][".$title."]' datahidden='shipping".$inputname."".$title."' > <input type='hidden' name='shipping[".$inputname."][".$title."]' value='0' class='shipping".$inputname."".$title."'/> ";
         break;
         case "select":
 
-          $title=$fieldarr['title'];
-          $inputval.="<select  id='' name='".$fieldarr['fieldarray']['name']."' class='' tabindex='-1' title='".$title."'>";
+          $inputval.="<select  id='' name='shipping[".$inputname."][".$title."]' class='' tabindex='-1' title='".$fieldarr['title']."'>";
 
            foreach ($fieldarr['fieldarray']['options'] as $optkey => $optvalue) {
                $checked = ($fieldarr['fieldarray']['default']==$optkey)?'selected':'';
@@ -508,7 +518,14 @@ global  $woocommerce;
            $inputval.="<p>".$fieldarr['fieldarray']['description']."</p>";
         break;
         case "price":
-            $inputval.= "<p>".$currencysymbol."<input type='text' name='' value='".$fieldarr['fieldarray']['default']."' placeholder='".$title."'/></p>";
+            $inputval.= "<p class='customcostfield'> ".$currencysymbol." <input id='shipping".$inputname."".$title."' type='text' name='shipping[".$inputname."][".$title."]' value='".$fieldarr['fieldarray']['default']."' placeholder='".$title."'/></p>
+                <script>
+                jQuery(document).ready(function(){
+                    jQuery('#shipping".$inputname."".$title."').maskMoney({thousands:',',  affixesStay: true});
+                });
+                </script>
+            ";
+            
         break;
 
     }
@@ -516,6 +533,33 @@ global  $woocommerce;
 
     return $inputval;
 
+}
+
+
+
+/* 
+ * Function to store shipping method by vendor id
+ */
+
+add_action('edited_yith_shop_vendor', 'save_yith_shop_vendor_shipping', 10, 1);
+function save_yith_shop_vendor_shipping($termidval){
+ /*   echo "<pre>";
+    print_r($_POST['shipping']);
+    echo "</pre>";
+
+$seri=serialize($_POST['shipping']['wigthshipping']);
+    __p($seri);
+    echo "<pre>";
+
+    __p(unserialize($seri));
+
+
+
+
+
+
+
+    die;*/
 }
 
 

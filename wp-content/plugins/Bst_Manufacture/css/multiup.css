@@ -84,3 +84,17 @@
   display: inline-block;
   text-align: center;
 }
+
+.customcostfield {
+  display: inline-block;
+  width: 122%;
+}
+
+.customcostfield input{
+  text-align: right;
+}
+
+.customwbsmincontainer {
+  float: left;
+  width: 50%;
+}

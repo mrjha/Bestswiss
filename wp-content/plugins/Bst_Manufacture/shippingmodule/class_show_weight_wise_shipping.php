@@ -49,10 +49,10 @@
                         'title'   => __('Enable/Disable', 'woowbs'),
                         'type'    => 'checkbox',
                         'label'   => __('Enable this rule', 'woowbs'),
-                        'default' => 'yes',
+                        'default' => '0',
                         'name'    => 'weightShip_enable'
                     ),
-                    'tax_status' => array(
+                    /*'tax_status' => array(
                         'title'       => __('Tax Status', 'woowbs'),
                         'type'        => 'select',
                         'default'     => 'taxable',
@@ -62,7 +62,7 @@
                             'taxable'   => __('Taxable', 'woowbs'),
                             'none'      => __('None', 'woowbs'),
                         ),
-                    ),
+                    ),*/
                 ### Conditions ###
                 array(
                     'type' => 'title',
@@ -90,7 +90,7 @@
                 ),
                     'maxiumm_weight'        => array(
                         'title'       => __('Maximum weight', 'woowbs'),
-                        'type'        => 'text',
+                        'type'        => 'weight',
                         'description' => __('Leave empty if dont want to apply this rule.', 'woowbs'),
                     ),
                     'maximum_cost' => array(
