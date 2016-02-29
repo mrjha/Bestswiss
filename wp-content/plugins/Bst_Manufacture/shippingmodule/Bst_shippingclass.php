@@ -4,6 +4,8 @@ include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/class_sh
 include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/class_show_weight_wise_shipping.php');
 include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/class_weight_htmlform.php');
 
+global $wpdb;
+
 /* code to call shipping methods */
 
 $obj = new WC_Shipping();
@@ -32,6 +34,16 @@ $flatratefield =array();
 unset($fieldflatrate['availability']);
 unset($fieldflatrate['countries']);
 
+$vid = get_the_ID();
+$table =$wpdb->prefix.'yith_vendors_shipping';
+$getresult = $wpdb->get_results('select * from '.$table.' where vid='.$vid);
+if($getresult[0]->flatrate){
+  $flatrateval =$getresult[0]->flatrate;
+  $unserializeVal = unserialize($flatrateval);
+  $fieldflatrate['enabled']['default']=$unserializeVal['enabled'];
+  $fieldflatrate['cost']['default']=$unserializeVal['cost'];
+}
+
 
 foreach ($fieldflatrate as $title => $fieldArray) {
 
@@ -41,7 +53,7 @@ foreach ($fieldflatrate as $title => $fieldArray) {
               </th>';
 
    $inputarg = array('type'=> $fieldArray['type'],
-                      'fieldarray'             => $fieldArray);
+                      'fieldarray'=> $fieldArray);
 
    $inputfield = inputtype($title, $inputarg, 'flatrate');
 
@@ -63,7 +75,15 @@ $freeship='<table class="form-table"><tbody>';
 $freeshipfield =array();
 
 
-//__p($fieldfreeship);
+if($getresult[0]->freeship){
+  $freeShipArr =$getresult[0]->freeship;
+  $unserializeVal = unserialize($freeShipArr);
+  $fieldfreeship['enabled']['default']=$unserializeVal['enabled'];
+  $fieldfreeship['requires']['default']=$unserializeVal['requires'];
+  $fieldfreeship['min_amount']['default']=$unserializeVal['min_amount'];
+  $fieldfreeship['shipping_cost']['default']=$unserializeVal['shipping_cost'];
+}
+
 
 foreach ($fieldfreeship as $title => $fieldArray) {
 
@@ -99,6 +119,13 @@ $fastdeliveryfield =array();
 unset($fieldfastdelivery['availability']);
 unset($fieldfastdelivery['countries']);
 
+if($getresult[0]->fastdelivery){
+  $fastShipArr =$getresult[0]->fastdelivery;
+  $unserializeVal = unserialize($fastShipArr);
+  $fieldfastdelivery['enabled']['default']=$unserializeVal['enabled'];
+  $fieldfastdelivery['cost']['default']=$unserializeVal['cost'];
+}
+
 foreach ($fieldfastdelivery as $title => $fieldArray) {
 
    $fastdelivery.='<tr valign="top">
@@ -107,7 +134,7 @@ foreach ($fieldfastdelivery as $title => $fieldArray) {
               </th>';
 
    $inputarg = array('type'=> $fieldArray['type'],
-                      'fieldarray'             => $fieldArray);
+                      'fieldarray' => $fieldArray);
 
    $inputfield = inputtype($title, $inputarg, 'fastdelivery');
 
@@ -144,10 +171,21 @@ unset($formhtmlarr['availability']);
 unset($formhtmlarr['countries']);
 unset($formhtmlarr['shipping_class_rates']);
 
-//__p($formhtmlarr);
+if($getresult[0]->weightbased){
+  
+  $weightShipArr =$getresult[0]->weightbased;
+  $unserializeVal = unserialize($weightShipArr);
+  $formhtmlarr['enabled']['default']=$unserializeVal['enabled'];
+  $formhtmlarr['weight']['totalcondition']=$unserializeVal['weight']['totalcondition'];
+  $formhtmlarr['subtotal']['totalcondition']=$unserializeVal['subtotal']['totalcondition'];
+  $formhtmlarr['maxiumm_weight']['default']=$unserializeVal['maxiumm_weight'];
+  $formhtmlarr['maximum_cost']['default']=$unserializeVal['maximum_cost'];
+  $formhtmlarr['weight']['container']=$unserializeVal['weight'];
+  $formhtmlarr['subtotal']['container']=$unserializeVal['subtotal'];
+}
 
  foreach ($formhtmlarr as $key => $data) {
-    $objvaaa .= $objhtmlel->generateRangeHtml( $key,$data,'wigthshipping');
+    $objvaaa .= $objhtmlel->generateRangeHtml($key,$data,'wigthshipping');
  }
 
  $objvaaa.="</div>";
@@ -198,11 +236,23 @@ foreach ($shippingmethod as $shipkey => $shipvalue) {
 $script_toaddhiddenvalue ="<script>
   jQuery(document).ready(function(){
     jQuery('input[type=\"checkbox\"]').click(function(){
+      hiddenval = jQuery(this).attr('datahidden');
       if(jQuery(this).is(\":checked\") == true){
-        hiddenval = jQuery(this).attr('datahidden');
         jQuery('.'+hiddenval).val(1);
+      }else{
+        jQuery('.'+hiddenval).val(0);
       }
     });
+
+    /* for weightbased shipping */
+    jQuery('form').submit(function(){
+      var totallgth = jQuery('.weightcls .wightfield').length;
+      jQuery('.totalweightcon').val(totallgth);
+
+      var totalsublgth = jQuery('.ordersubtotal .wightfield').length;
+      jQuery('.orderttlcount').val(totalsublgth);
+    });
+
   })
 </script>";
 

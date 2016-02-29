@@ -73,6 +73,7 @@
                         'title'       => __('Order Weight', 'woowbs'),
                         'type'        => 'wbs_range',
                         'name'    => 'weightShip_weight',
+                        'totalcondition' => 1
                     ),
                     'subtotal' => array(
                         'title'       => __('Order Subtotal', 'woowbs'),
@@ -80,6 +81,7 @@
                         'wbs_real_type'     => 'wbs_range',
                         'wbs_row_class'     => 'wbs-subtotal',
                         'name'    => 'weightShip_subtotal',
+                        'totalcondition' => 1
                     ),
 
                 ### Calculations ###
@@ -92,12 +94,13 @@
                         'title'       => __('Maximum weight', 'woowbs'),
                         'type'        => 'weight',
                         'description' => __('Leave empty if dont want to apply this rule.', 'woowbs'),
+                        'default' => '0'
                     ),
                     'maximum_cost' => array(
                         'title'       => __('Maximum Cost', 'woowbs'),
                         'type'        => 'price',
-                        'description' =>
-                            __('Leave empty if dont want to apply this rule.'),
+                        'description' =>__('Leave empty if dont want to apply this rule.'),
+                        'default' => '0'
                     )
 
             );

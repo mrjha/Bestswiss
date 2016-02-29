@@ -58,6 +58,7 @@ function add_image_metabox(){
         <li><a href="#exec1">Gallery</a></li>
         <li><a href="#exec2">Snippets</a></li>
         <li><a href="#exec3">Shipping</a></li>
+        <li><a href="#exec4">Payment Acceptance</a></li>
      </ul>
 
     <!-- tab 1 start -->
@@ -620,6 +621,18 @@ function add_image_metabox(){
                 <td> 
                   <?php
                   	include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/Bst_shippingclass.php');
+                   ?>
+                </td>
+            </tr>
+         </table>
+     </div>
+     <div id="exec4" class="tab_content">
+        <table>
+            <tr class="form-field term-slug-wrap">
+                <th scope="row"><label for="Untertitel">Payment Acceptance</label></th>
+                <td> 
+                  <?php
+                  	//include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/Bst_shippingclass.php');
                    ?>
                 </td>
             </tr>

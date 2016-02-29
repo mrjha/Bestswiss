@@ -30,6 +30,7 @@ jQuery.duplicate = function(){
     var tarlen= target.length;
     if(!target.length) target = jQuery(settings[targetName].parent);
     var newElement = jQuery(templates[targetName]).clone(true).attr('dupl',targetName+''+tarlen).addClass(targetName+''+tarlen);
+    jQuery(newElement).find("input[type='text']").val("").find("input[type='checkbox']").attr('checked','');
     
     if(jQuery(selector).length >= settings[targetName].maximum) {
       jQuery(this).trigger('duplicate.error');

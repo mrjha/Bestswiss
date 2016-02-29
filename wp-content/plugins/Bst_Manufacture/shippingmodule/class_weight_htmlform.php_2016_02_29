@@ -156,9 +156,7 @@ class wightshipphtmlforms {
                                     <label class='td' for='woowbs_main_enabled'>
                                         <h2 data-duplicate-add='orderbypricedel' data-duplicate-max='3'></h2>";
                 $data['totalcondition']=($data['totalcondition'])?$data['totalcondition']:1;
-                
                 for($i=0;$i<$data['totalcondition'];$i++){                    
-                
                 $weighdelivery.="<fieldset onclick='enblefield();' class='wightfield' data-duplicate='orderbypricedel' data-duplicate-min='1'>
                                         <div>
                                         <a class='wightanch' href='javascript:void(0)' data-duplicate-add='orderbypricedel'>+</a>
@@ -169,35 +167,26 @@ class wightshipphtmlforms {
                                         </legend>
 
                                         <label class='wbs-minifield-container customwbsmincontainer'>
-                                        <span class='wbs-minifield-label'>above (".$currencysymbol.")</span>";
+                                        <span class='wbs-minifield-label'>above (".$currencysymbol.")</span>
+                                        <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][min][value][]' id='woowbs_main_subtotal_min'>
+                                        <label> <input type='checkbox'  value='1' name='woowbs_main_subtotal[min][inclusive]'> or equal
+                                        </label>
 
-                $submin=($data['container']['min']['value'][$i])?$data['container']['min']['value'][$i]:0;
-
-                $weighdelivery.="<input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][min][value][]' id='woowbs_main_subtotal_min' value='".$submin."'>";
-
-                $subminckh=($data['container']['min']['inclusive'][$i])?"checked=checked":0;
-                $weighdelivery.="<label> <input ".$subminckh." type='checkbox'  value='1' name='shipping[".$inputname."][".$key."][min][inclusive][]'> or equal
-                                        </label>";
-
-
-                $submaxval=($data['container']['max']['value'][$i])?$data['container']['max']['value'][$i]:0;
-                $submaxchk=($data['container']['max']['inclusive'][$i])?"checked=checked":"";
-                $weighdelivery.="</label>
+                                        </label>
                                         <label class='wbs-minifield-container customwbsmincontainer'>
-                                        <span class='wbs-minifield-label'>below (".$currencysymbol.")</span>";
-                $weighdelivery.="<input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][max][value][]' id='woowbs_main_subtotal_max' value='".$submaxval."'>
-                                        <label> <input type='checkbox' ".$submaxchk." value='1' name='shipping[".$inputname."][".$key."][max][inclusive][]'> or equal
-                                        </label>";
+                                        <span class='wbs-minifield-label'>below (".$currencysymbol.")</span>
+                                        <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][max][value][]' id='woowbs_main_subtotal_max'>
+                                        <label> <input type='checkbox' value='1' name='shipping[".$inputname."][".$key."][max][inclusive][]'> or equal
+                                        </label>
 
-                $submaxcost=($data['container']['cost'][$i])?$data['container']['cost'][$i]:0;
-                $weighdelivery.="</label>
+                                        </label>
+
                                          <label class='wbs-minifield-container customwbsmincontainer'>
                                                     <span class='wbs-minifield-label'>Cost (".$currencysymbol.")</span>
-                                                    <input value='".$submaxcost."' type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][cost][]' id='woowbs_main_weight_max'>
+                                                    <input type='text' class='shipping".$inputname."".$key." wbs-minifield wc_input_decimal input-text' name='shipping[".$inputname."][".$key."][cost][]' id='woowbs_main_weight_max'>
                                                 </label>
                                         </fieldset>";
                                     }
-
                     $weighdelivery.="</label>
                                         <script>
                                             jQuery(document).ready(function(){

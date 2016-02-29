@@ -499,15 +499,15 @@ global  $woocommerce;
         break;
 
         case "checkbox":
-          $checked = ($fieldarr['fieldarray']['default']=='no')?'':'checked="checked"';
-          $inputval.="<input type='checkbox' ".$checked."  value='1' style='' id='' name='shipping[".$inputname."][".$title."]' datahidden='shipping".$inputname."".$title."' > <input type='hidden' name='shipping[".$inputname."][".$title."]' value='0' class='shipping".$inputname."".$title."'/> ";
+          $checked = ($fieldarr['fieldarray']['default']=='0')?'':'checked="checked"';
+          $inputval.="<input type='checkbox' ".$checked."  value='1' style='' id='' name='shipping[".$inputname."][".$title."]' datahidden='shipping".$inputname."".$title."' > <input type='hidden' name='shipping[".$inputname."][".$title."]' value='".$fieldarr['fieldarray']['default']."' class='shipping".$inputname."".$title."'/> ";
         break;
         case "select":
 
           $inputval.="<select  id='' name='shipping[".$inputname."][".$title."]' class='' tabindex='-1' title='".$fieldarr['title']."'>";
 
            foreach ($fieldarr['fieldarray']['options'] as $optkey => $optvalue) {
-               $checked = ($fieldarr['fieldarray']['default']==$optkey)?'selected':'';
+               $checked = ($fieldarr['fieldarray']['default']==$optvalue)?'selected':'';
                $inputval.="<option ".$checked." val='".$optkey."'>".$optvalue."</option>";
            }
                                                     /*<option value="all">All allowed countries</option>
@@ -543,23 +543,51 @@ global  $woocommerce;
 
 add_action('edited_yith_shop_vendor', 'save_yith_shop_vendor_shipping', 10, 1);
 function save_yith_shop_vendor_shipping($termidval){
- /*   echo "<pre>";
-    print_r($_POST['shipping']);
-    echo "</pre>";
+    global $wpdb;
 
-$seri=serialize($_POST['shipping']['wigthshipping']);
-    __p($seri);
-    echo "<pre>";
+    $vid = $termidval;
+    $shippingarray = $_POST['shipping'];
+    $table =$wpdb->prefix.'yith_vendors_shipping';
+    
+    if($shippingarray){
 
-    __p(unserialize($seri));
+        $dataarray =$data=$format =array();
 
+    foreach ($shippingarray as $shipkey => $shipvalue) {
 
+        switch($shipkey){
+            case "flatrate":
+                $colvalue=serialize($shipvalue);
+                $colkey='flatrate';
+                $data[$colkey] =$colvalue;
+            break;
+            case "freeshiping":
+                $colvalue=serialize($shipvalue);
+                $colkey='freeship';
+                $data[$colkey] =$colvalue;
+            break;
+            case "fastdelivery":
+                $colvalue=serialize($shipvalue);
+                $colkey='fastdelivery';
+                $data[$colkey] =$colvalue;
+            break;
+            case "wigthshipping":
+                $colvalue=serialize($shipvalue);
+                $colkey='weightbased';
+                $data[$colkey] =$colvalue;
+            break;
+            
+            }
+        }#foreach
+        
+        $data['vid']=$vid;
+        if($wpdb->replace( $table, $data)){
+        $msg="Updated";
+        }else{
+        $msg="Opps somthing went wrong please try again";
+        }
 
-
-
-
-
-    die;*/
+     }
 }
 
 
