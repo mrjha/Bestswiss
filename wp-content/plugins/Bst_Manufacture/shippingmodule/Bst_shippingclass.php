@@ -37,6 +37,7 @@ unset($fieldflatrate['countries']);
 $vid = get_the_ID();
 $table =$wpdb->prefix.'yith_vendors_shipping';
 $getresult = $wpdb->get_results('select * from '.$table.' where vid='.$vid);
+$GLOBALS['shippingrest'] = $getresult;
 if($getresult[0]->flatrate){
   $flatrateval =$getresult[0]->flatrate;
   $unserializeVal = unserialize($flatrateval);

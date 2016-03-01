@@ -196,6 +196,7 @@ function bst_setup_post_type() {
                       `freeship` longtext NOT NULL,
                       `fastdelivery` longtext NOT NULL,
                       `weightbased` longtext NOT NULL,
+                      `payment` longtext NOT NULL,
                       PRIMARY KEY (`vid`)
                     )";   
         $wpdb->get_var($sqlquery);
@@ -474,15 +475,18 @@ function load_custom_wp_admin_style() {
       echo  $css .='</style>';
 
 
-    }
 
-    wp_enqueue_style($css);
+      wp_enqueue_style($css);
     wp_enqueue_style( 'boostrpmin','http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' );    
     wp_enqueue_style( 'boostrawesome','http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );    
     wp_enqueue_style( 'booststyle',plugin_dir_url( __FILE__ ) . 'css/accordian/style.css' );    
     wp_enqueue_script( 'bstaccordian', plugin_dir_url( __FILE__ ) . 'js/accordian/paccordion.js',array('jquery'),1.0,'true' );
     wp_enqueue_script( 'jqueryduplicate', plugin_dir_url( __FILE__ ) . 'js/multplsrow/jquery.duplicate.js',array('jquery'),1.0,'true' );
     wp_enqueue_script( 'jquerymaskMoney', plugin_dir_url( __FILE__ ) . 'js/maskinput/jquery.maskMoney.js',array('jquery'),1.0,'true' );
+
+    }
+
+
 }
 add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
 
@@ -544,14 +548,15 @@ global  $woocommerce;
 add_action('edited_yith_shop_vendor', 'save_yith_shop_vendor_shipping', 10, 1);
 function save_yith_shop_vendor_shipping($termidval){
     global $wpdb;
-
+    
     $vid = $termidval;
+    $dataarray =$data=$format =array();
     $shippingarray = $_POST['shipping'];
     $table =$wpdb->prefix.'yith_vendors_shipping';
+    $data['payment'] = serialize($_POST['payment']);
+    $data['vid']=$vid;
     
-    if($shippingarray){
-
-        $dataarray =$data=$format =array();
+    if($shippingarray || $data['payment']){
 
     foreach ($shippingarray as $shipkey => $shipvalue) {
 
@@ -580,7 +585,7 @@ function save_yith_shop_vendor_shipping($termidval){
             }
         }#foreach
         
-        $data['vid']=$vid;
+        
         if($wpdb->replace( $table, $data)){
         $msg="Updated";
         }else{
@@ -588,6 +593,8 @@ function save_yith_shop_vendor_shipping($termidval){
         }
 
      }
+     //$wpdb->replace( $table, $data);
+
 }
 
 

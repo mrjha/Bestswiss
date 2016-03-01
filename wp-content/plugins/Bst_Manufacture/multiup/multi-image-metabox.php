@@ -629,11 +629,34 @@ function add_image_metabox(){
      <div id="exec4" class="tab_content">
         <table>
             <tr class="form-field term-slug-wrap">
-                <th scope="row"><label for="Untertitel">Payment Acceptance</label></th>
+                <th scope="row" colspan="2"><label for="Untertitel">Payment Acceptance(Enable / Disable)</label></th>
+                </tr>
+                <tr>
+                <td></td>
                 <td> 
-                  <?php
-                  	//include_once(ABSPATH.'wp-content/plugins/Bst_Manufacture/shippingmodule/Bst_shippingclass.php');
-                   ?>
+                  <div>
+                    <?php
+                    	global $shippingrest;
+                    	
+                    	$paymentarr = unserialize($shippingrest[0]->payment);
+
+                    	
+                     ?>
+                     <input type="hidden" name="payment[creditcard]" value="0" />
+                  	 <label><input <?php if($paymentarr['creditcard']==1){echo "checked=checked";} ?> type="checkbox" name="payment[creditcard]" value="1" > Credit Card</label>
+                  </div>
+                  <div>
+                     <input type="hidden" name="payment[paypal]" value="0" />
+                  	 <label><input <?php if($paymentarr['paypal']==1){echo "checked=checked";} ?> type="checkbox" name="payment[paypal]" value="1"> Paypal</label>
+                  </div>
+                  <div>
+                     <input type="hidden" name="payment[billpayment]" value="0" />
+                  	 <label><input <?php if($paymentarr['billpayment']==1){echo "checked=checked";} ?> type="checkbox" name="payment[billpayment]" value="1"> Bill Payment</label>
+                  </div>
+                  <div>
+                   <input type="hidden" name="payment[advancepayment]" value="0" />
+                  	 <label><input <?php if($paymentarr['advancepayment']==1){echo "checked=checked";} ?> type="checkbox" name="payment[advancepayment]" value="1"> Advance Payment</label>
+                  </div>
                 </td>
             </tr>
          </table>
